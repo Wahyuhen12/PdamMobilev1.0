@@ -5,6 +5,7 @@ import 'package:mobile_pdam/common/ui/app_password.dart';
 import 'package:mobile_pdam/common/ui/app_text.dart';
 import 'package:mobile_pdam/views/login/login_presenter.dart';
 import 'package:mobile_pdam/common/ui/app_succesDialog.dart';
+import 'package:one_context/one_context.dart';
 
 class LoginView extends StatefulWidget {
   LoginView({Key key}) : super(key: key);
@@ -20,6 +21,7 @@ class _LoginViewState extends State<LoginView> implements LoginViewContract {
   @override
   void initState() {
     super.initState();
+    OneContext().key = GlobalKey<NavigatorState>();
     _presenter = LoginViewPresenter(this);
   }
 
@@ -75,6 +77,7 @@ class _LoginViewState extends State<LoginView> implements LoginViewContract {
                     child: new AppButton(
                       ontap: () {
                         _presenter.buttonLogin();
+                        
                       },
                       text: "Login",
                       color: AppColors.buttonPrimaryColor,
@@ -85,6 +88,11 @@ class _LoginViewState extends State<LoginView> implements LoginViewContract {
         ),
       ),
     );
+  }
+
+  @override
+  void sukses(){
+    Navigator.pushNamed(context, "/dashboardView");
   }
 
   @override

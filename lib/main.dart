@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_pdam/router_generator.dart';
 import 'package:mobile_pdam/views/login/login_view.dart';
+import 'package:one_context/one_context.dart';
 import 'package:flutter/services.dart';
 
 void main() {
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(statusBarColor: Colors.transparent));
     return MaterialApp(
+      builder: OneContext().builder,
       initialRoute: "/loginView",
       onGenerateRoute: RouterGenerator.generateRoute,
       debugShowCheckedModeBanner: false,

@@ -116,24 +116,6 @@ class _DashBoardViewState extends State<DashBoardView> {
                             contentPadding: EdgeInsets.only(top: 15.0),
                             prefixIcon: Icon(Icons.search, color: Colors.grey)),
                       ))),
-              Padding(
-                padding: EdgeInsets.only(left: 10.0, top: 15.0),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Container(
-                    height: 40.0,
-                    width: 40.0,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        color: Colors.white),
-                    child: Center(
-                      child: Icon(Icons.arrow_back_ios),
-                    ),
-                  ),
-                ),
-              ),
             ],
           ),
           //Get out of the stack for the options
