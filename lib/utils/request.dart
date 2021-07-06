@@ -1,102 +1,145 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:mobile_pdam/utils/encryption.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/io_client.dart';
 import 'package:mobile_pdam/utils/device_info.dart';
 
-// Request merupakan class yang menghandler segala request ke server
+class ResponseApp {
+  String code;
+  String message;
+  dynamic data;
+}
+
 class Requests {
-  Map<String, String> _defaultHeaders = {};
+  Map<String, String> _header = {};
+  String apiUrl = "https://accounts.angondata.net/testgolang.html";
+  int _timeout = 40;
 
-  String url = "https://reqres.in/";
-
-  // init setting defalut header
+  //Init header
   Requests() {
-    _defaultHeaders["x-app"] = "11111111";
-    _defaultHeaders["x-os"] = Platform.operatingSystemVersion;
-    _defaultHeaders["x-timestamp"] = "";
-    _defaultHeaders["x-signature"] = "";
+    _header["x-os"] = Platform.operatingSystemVersion;
+    _header["Content-Type"] = "text/html";
+    _header["User-Agent"] = "flutter agents";
   }
 
-  /// get method yang berfungsi untuk membuat request GET ke server berdasarkan
-  /// endpoint. queryParam merupakan data yang dikirim saat request
-  /// contoh:
-  ///
-  /// var httpReq = Requests();
-  /// var result = await httpReq.get("/units", queryParams:{"unit": 1})
-  Future<http.Response> get(
-    String endpoint, {
-    Map<String, String> headers,
-    Map<String, dynamic> queryParams,
-  }) {
-    var headerSend = {};
-    headerSend.addAll(_defaultHeaders);
-    if (headers.isNotEmpty) {
-      headerSend.addAll(headers);
+  //GET REQUEST
+  Future<ResponseApp> get(String endpoint, {int timeout}) async {
+    final Uri uri = Uri.parse(apiUrl);
+    final timestamp = new DateTime.now().millisecondsSinceEpoch;
+    final hwid = await DeviceInfo.gethardwareid();
+    String errorCode;
+    String errorMessage;
+    String result;
+
+    _header["x-timestamp"] = timestamp.toString();
+    _header["x-hwid"] = hwid;
+    _timeout = timeout == null ? _timeout : timeout;
+
+    try {
+      final response = await http
+          .get(
+            uri,
+            headers: _header,
+          )
+          .timeout(new Duration(seconds: _timeout));
+
+      if (response.statusCode == 200) {
+        result = response.body;
+      } else {
+        errorCode = "HTTP-" + response.statusCode.toString();
+        errorMessage = "Response error from server.";
+      }
+    } on TimeoutException {
+      errorCode = "HTTP-TIMEOUT";
+      errorMessage = "Response timeout from server.";
+    } on SocketException {
+      errorCode = "HTTP-NOCONNECT";
+      errorMessage = "You are not connected to internet";
     }
 
-    return http.get(
-      Uri.http(url, endpoint, queryParams),
-      headers: headerSend,
-    );
+    return _decodeResponse(errorCode, errorMessage, result);
   }
 
-  /// method post berfungsi untuk membuat request POST ke server berdasarkan endpoint
-  /// contoh:
-  ///
-  /// var result = await Request().post("/auth", body:{"user_name": "admin"})
-  Future<http.Response> post(
-    String endpoint, {
-    Map<String, String> headers,
-    Map<String, dynamic> body,
-  }) async {
+  //POST REQUEST
+  Future<ResponseApp> post(String endpoint,
+      {Map<String, dynamic> body, int timeout}) async {
+    final Uri uri = Uri.parse(apiUrl);
+    final timestamp = new DateTime.now().millisecondsSinceEpoch;
+    final hwid = await DeviceInfo.gethardwareid();
 
-    String apiUrl = "https://reqres.in/api/login"; 
+    String errorCode;
+    String errorMessage;
+    String result;
 
-    // melakukan pengecekan untuk mengkonfirmasi apakah ada tambahan header
-    var headerSend = {};
-    headerSend.addAll(_defaultHeaders);
-    var timestamp = new DateTime.now().millisecondsSinceEpoch;
-    var hwid = await DeviceInfo.gethardwareid();
+    _header["x-timestamp"] = timestamp.toString();
+    _header["x-hwid"] = hwid;
+    _timeout = timeout == null ? _timeout : timeout;
 
-    if (hwid == "") {
-      _defaultHeaders["x-timestamp"] = timestamp.toString();
-    } else {
-      var signature = Encrypt.hmac256Encryption(
-          data: (json.encode(body) + "$timestamp"), key: hwid);
-      _defaultHeaders["x-timestamp"] = timestamp.toString();
-      _defaultHeaders["x-signature"] = "$signature";
+    try {
+      final response = await http
+          .post(
+            uri,
+            headers: _header,
+            body: jsonEncode(body),
+          )
+          .timeout(new Duration(seconds: _timeout));
+
+      if (response.statusCode == 200) {
+        result = response.body;
+      } else {
+        errorCode = "HTTP-" + response.statusCode.toString();
+        errorMessage = "Response error from server.";
+      }
+    } on TimeoutException {
+      errorCode = "HTTP-TIMEOUT";
+      errorMessage = "Response timeout from server.";
+    } on SocketException {
+      errorCode = "HTTP-NOCONNECT";
+      errorMessage = "You are not connected to internet";
     }
-    // final response = await http.post(
-    //   Uri.http(GlobalVar.serverIP, endpoint),
-    //   body: data,
-    //  headers: headerSend,
-    // );
-    
-    final response = await http.post(Uri.http(apiUrl, endpoint),
-          body: jsonEncode(body),
-          // headers: _defaultHeaders
-          headers: {
-          "Content-Type": "application/json",
-        },
-    );
+
+    return _decodeResponse(errorCode, errorMessage, result);
+  }
+
+  //Decode JSON Response
+  ResponseApp _decodeResponse(
+      String errorCode, String errorMessage, String databody) {
+    final ResponseApp response = new ResponseApp();
+
+    response.code = errorCode;
+    response.message = errorMessage;
+
+    if (errorCode != null) {
+      return response;
+    }
+
+    dynamic result;
+    try {
+      result = json.decode(databody);
+    } on FormatException catch (_) {
+      response.code = "HTTP-DECODE";
+      response.message = "Error decode response from server";
+      return response;
+    }
+
+    final status = result["status"];
+    final data = result["data"];
+
+    if (status == null) {
+      response.code = "HTTP-DECODE";
+      response.message = "Error format response from server";
+      return response;
+    }
+
+    if (status["code"] != "0000") {
+      response.code = status["code"];
+      response.message = status["message"];
+      return response;
+    }
+
+    response.code = status["code"];
+    response.message = status["message"];
+    response.data = data;
     return response;
-
-
   }
-
-   Future<http.Response> posts(String endpoint,{
-    Map<String, dynamic> body,
-  }) async{
-      String apiUrl = "https://reqres.in/"; 
-      final response2 = await http.post(Uri.parse(apiUrl + endpoint),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: jsonEncode(body),
-    );
-    
-    return response2;
-   }
 }

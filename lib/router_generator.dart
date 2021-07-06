@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_pdam/common/ui/app_navigatorBar.dart';
-import 'package:mobile_pdam/views/login/login_presenter.dart';
 import 'package:mobile_pdam/views/login/login_view.dart';
 
-class RouterGenerator{
-   static Route<dynamic> generateRoute(RouteSettings settings) {
-
-    switch (settings.name) { 
+class RouterGenerator {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
       case '/loginView':
-        return MaterialPageRoute(builder: (_) => LoginView(new LoginBasicPresenter()));
+        return MaterialPageRoute(builder: (_) => LoginView());
       case '/dashboardView':
         return MaterialPageRoute(builder: (_) => NavigatorBar());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();
     }
-   }
+  }
+
   static Route<dynamic> _errorRoute() {
     return MaterialPageRoute(builder: (_) {
       return Scaffold(

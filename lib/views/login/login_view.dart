@@ -4,16 +4,25 @@ import 'package:mobile_pdam/common/ui/app_colors.dart';
 import 'package:mobile_pdam/common/ui/app_password.dart';
 import 'package:mobile_pdam/common/ui/app_text.dart';
 import 'package:mobile_pdam/views/login/login_presenter.dart';
+import 'package:mobile_pdam/common/ui/app_succesDialog.dart';
 
 class LoginView extends StatefulWidget {
-  LoginBasicPresenter presenter;
-  LoginView(this.presenter,{Key key}) : super(key: key);
+  LoginView({Key key}) : super(key: key);
+
   @override
   _LoginViewState createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView>{
-  AppModel appModel = AppModel();
+class _LoginViewState extends State<LoginView> implements LoginViewContract {
+  LoginViewModel _appModel = LoginViewModel();
+  LoginViewPresenter _presenter;
+
+  @override
+  void initState() {
+    super.initState();
+    _presenter = LoginViewPresenter(this);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +49,7 @@ class _LoginViewState extends State<LoginView>{
                   padding: EdgeInsets.all(10),
                   child: AppText(
                     text: "Username",
-                    texteditingController: appModel.username,  
+                    texteditingController: _appModel.username,
                   ),
                 ),
               ),
@@ -49,19 +58,14 @@ class _LoginViewState extends State<LoginView>{
                 child: Container(
                   padding: EdgeInsets.all(10),
                   child: AppPassword(
-                    passwordController: appModel.password,
+                    passwordController: _appModel.password,
                     text: "Paswword",
-                    ),
+                  ),
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  //forgot password screen
-                },
-                child: Text(
-                  'Forgot Password',
-                  style: TextStyle(color: Colors.blue),
-                ),
+              Text(
+                'Forgot Password',
+                style: TextStyle(color: Colors.blue),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),
@@ -69,8 +73,8 @@ class _LoginViewState extends State<LoginView>{
                     height: 50,
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: new AppButton(
-                      ontap: (){
-                       this.widget.presenter.buttonClick(context);
+                      ontap: () {
+                        _presenter.buttonLogin();
                       },
                       text: "Login",
                       color: AppColors.buttonPrimaryColor,
@@ -80,6 +84,24 @@ class _LoginViewState extends State<LoginView>{
           ),
         ),
       ),
+    );
+  }
+
+  @override
+  void refreshData(LoginViewModel model) {
+    setState(() {
+      this._appModel = model;
+    });
+  }
+
+  @override
+  void toast(String message) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return AppSuccesDialog();
+      },
     );
   }
 }

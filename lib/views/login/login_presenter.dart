@@ -1,40 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_pdam/common/ui/app_succesDialog.dart';
 import 'package:mobile_pdam/utils/request.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
-class LoginBasicPresenter{
-  AppModel appModel = AppModel();
-
-  void buttonClick(BuildContext context) async {
-    String username = "eve.holt@reqres.in";
-    String password = "cityslicka";
-
-    final response = await Requests().posts("api/login", body: {
-      "email":username,
-      "password": password,
-    });
-    if(response.statusCode == 200){
-      _showDialog(context);
-    }
-    print(response.body);
-  }
-
-  void _showDialog(BuildContext context) {
-  showDialog(
-    barrierDismissible: false,
-    context: context,
-    builder: (BuildContext context) {
-      return AppSuccesDialog();
-    },
-  );
-}
+class LoginViewContract {
+  void toast(String message) {}
+  void refreshData(LoginViewModel model) {}
 }
 
-class AppModel {
+class LoginViewModel {
   final TextEditingController username = TextEditingController();
   final TextEditingController password = TextEditingController();
-  
   String result = "";
+}
+
+class LoginViewPresenter {
+  LoginViewContract _view;
+  LoginViewModel _appModel;
+  LoginViewPresenter(this._view) {
+    this._appModel = LoginViewModel();
+    this._view.refreshData(_appModel);
+  }
+
+  void buttonLogin() async {
+    final response = await Requests().post("api/login", body: {
+      "email": _appModel.username.text,
+      "password": _appModel.password.text,
+    });
+
+    print(response.code);
+  }
 }
