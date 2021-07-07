@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:mobile_pdam/common/ui/app_colors.dart';
+import 'package:mobile_pdam/views/RBM/rbm_view.dart';
 import 'package:mobile_pdam/views/dashboard/dashboard_view.dart';
 import 'package:mobile_pdam/views/profile/profile_view.dart';
 
@@ -21,6 +22,8 @@ class _NavigatorBarState extends State<NavigatorBar> {
         return new DashBoardView();
       case 1:
         return new ProfileView();
+        case 2:
+        return new RBMView();
       default :
         return DashBoardView(); 
     }

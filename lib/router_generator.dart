@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_pdam/common/ui/app_navigatorBar.dart';
+import 'package:mobile_pdam/views/RBM/rbm_view.dart';
 import 'package:mobile_pdam/views/login/login_view.dart';
+
 
 class RouterGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -9,6 +11,8 @@ class RouterGenerator {
         return MaterialPageRoute(builder: (_) => LoginView());
       case '/dashboardView':
         return MaterialPageRoute(builder: (_) => NavigatorBar());
+      case '/rbmView':
+        return MaterialPageRoute(builder: (_) => RBMView());
       default:
         // If there is no such named route in the switch statement, e.g. /third
         return _errorRoute();

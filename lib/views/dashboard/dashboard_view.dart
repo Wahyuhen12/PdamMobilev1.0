@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:mobile_pdam/common/ui/app_colors.dart';
+import 'package:mobile_pdam/views/RBM/rbm_view.dart';
 import 'package:mobile_pdam/views/profile/profile_view.dart';
+import 'package:one_context/one_context.dart';
 
 class DashBoardView extends StatefulWidget {
-  const DashBoardView({ Key key }) : super(key: key);
+  const DashBoardView({Key key}) : super(key: key);
 
   @override
   _DashBoardViewState createState() => _DashBoardViewState();
 }
 
 class _DashBoardViewState extends State<DashBoardView> {
-
-  var selectedFood = 'Baca Meter';
+  var selectedMenu = 'Baca Meter';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(0.0),
           child: AppBar(
@@ -28,18 +29,19 @@ class _DashBoardViewState extends State<DashBoardView> {
           Stack(
             children: <Widget>[
               Container(
-                height: 400.0,
+                height: 300.0,
               ),
               ShaderMask(
-                  shaderCallback: (rect) {
-                    return LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [Colors.white, Colors.transparent])
-                        .createShader(
-                            Rect.fromLTRB(0, 0, rect.width, rect.height));
-                  },
-                  blendMode: BlendMode.dstIn,),
+                shaderCallback: (rect) {
+                  return LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.white, Colors.transparent])
+                      .createShader(
+                          Rect.fromLTRB(0, 0, rect.width, rect.height));
+                },
+                blendMode: BlendMode.dstIn,
+              ),
               RotatedBox(
                 quarterTurns: 3,
                 child: Text('Foodie',
@@ -50,85 +52,89 @@ class _DashBoardViewState extends State<DashBoardView> {
                         letterSpacing: 10.0)),
               ),
               Positioned(
-                  top: 200.0,
-                  left: 40.0,
-                  child: Column(
-                    children: <Widget>[
-                      Text('PDAM',
-                          style: TextStyle(
-                              fontFamily: 'Sofia',
-                              fontSize: 32.0,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black54))
-                    ],
-                  )),
+                top: 32.0,
+                left: 40.0,
+                child: Wrap(
+                  children: <Widget>[
+                    Text('PDAM ',
+                        style: TextStyle(
+                            fontFamily: 'Sofia',
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black54)),
+                    Text('MOBILE',
+                        style: TextStyle(
+                            fontFamily: 'Sofia',
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryColor)),
+                    SizedBox(width: 160.0),
+                    new Icon(
+                      Icons.notifications,
+                      color: Colors.black45,
+                    ),
+                  ],
+                ),
+              ),
               Positioned(
-                  top: 235.0,
+                  top: 160.0,
                   left: 40.0,
                   child: Column(
                     children: <Widget>[
                       Row(
                         children: <Widget>[
-                          Text('MOBILE',
+                          Text('Hello ',
                               style: TextStyle(
                                   fontFamily: 'Sofia',
-                                  fontSize: 50.0,
+                                  fontSize: 40.0,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.primaryColor)),
-                          Text(',',
+                                  color: Colors.black54)),
+                          Text('John',
                               style: TextStyle(
                                   fontFamily: 'Sofia',
-                                  fontSize: 50.0,
+                                  fontSize: 40.0,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white)),
+                                  color: Colors.black54)),
                           SizedBox(width: 10.0),
+                        ],
+                      ),
+                    ],
+                  )),
+              Positioned(
+                  top: 200.0,
+                  left: 40.0,
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            'Selamat Datang di PDAM Mobile',
+                            style: TextStyle(
+                              fontFamily: 'Sofia',
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.black26,
+                            ),
+                          )
                         ],
                       )
                     ],
                   )),
-              Positioned(
-                  top: 320.0,
-                  left: 25.0,
-                  right: 25.0,
-                  child: Container(
-                      height: 50.0,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                                blurRadius: 5.0,
-                                color: Colors.black12.withOpacity(0.03),
-                                spreadRadius: 10.0)
-                          ],
-                          borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(15.0),
-                              bottomLeft: Radius.circular(15.0),
-                              topLeft: Radius.circular(15.0),
-                              topRight: Radius.circular(15.0))),
-                      child: TextField(
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Lets explore some food here...',
-                            hintStyle: TextStyle(
-                                color: Colors.black38,
-                                fontFamily: 'Sofia',
-                                fontSize: 12.0),
-                            contentPadding: EdgeInsets.only(top: 15.0),
-                            prefixIcon: Icon(Icons.search, color: Colors.grey)),
-                      ))),
             ],
           ),
           //Get out of the stack for the options
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            _menuItem('Baca Meter', Icons.mp_outlined),
+            _menuItem('Baca Meter', Icons.map_outlined),
             _menuItem('Penertiban', Icons.policy_outlined),
+          ]),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             _menuItem('Pembayaran', Icons.payment_outlined),
+            _menuItem('Gis', Icons.map_outlined),
           ]),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              _menuItem('Gis', Icons.map_outlined),
-              _menuItem('Lainya', Icons.apps),
+              _menuItem('Setting', Icons.settings_outlined),
               _menuItem('Lain', Icons.apps),
             ],
           ),
@@ -137,40 +143,46 @@ class _DashBoardViewState extends State<DashBoardView> {
     );
   }
 
-  Widget _menuItem(String menu, icon){
+  Widget _menuItem(String menu, icon) {
     return InkWell(
-       splashColor: Colors.transparent,
-       onTap: (){
-         pilihmenu(menu);
-       },
-       child: AnimatedContainer(
+        splashColor: Colors.transparent,
+        onTap: () {
+          pilihmenu(menu);
+          OnePlatform.reboot(
+              setUp: () {
+                OneContext().key = GlobalKey<NavigatorState>();
+              },
+              builder: () => RBMView());
+        },
+        child: AnimatedContainer(
             curve: Curves.easeIn,
             duration: Duration(milliseconds: 300),
-            height: selectedFood == menu ? 100.0 : 75.0,
-            width: selectedFood == menu ? 100.0 : 75.0,
-            color: selectedFood == menu
-                ? AppColors.primaryColor
+            height: selectedMenu == menu ? 110.0 : 110.0,
+            width: selectedMenu == menu ? 160.0 : 140.0,
+            color: selectedMenu == menu
+                ? Colors.blue[50].withOpacity(0.5)
                 : Colors.transparent,
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Icon(
                 icon,
-                color: selectedFood == menu ? Colors.white : Colors.grey,
-                size: 25.0,
+                color: selectedMenu == menu ? Colors.blue : Colors.black38,
+                size: 40.0,
               ),
               SizedBox(height: 12.0),
               Text(menu,
                   style: TextStyle(
                       fontFamily: 'Sofia',
                       color:
-                          selectedFood == menu ? Colors.white : Colors.grey,
-                      fontSize: 10.0))
-            ]))
-    );
+                          selectedMenu == menu ? Colors.blue : Colors.black38,
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w600))
+            ])));
   }
+
   pilihmenu(String menu) {
     setState(() {
-      selectedFood = menu;
+      selectedMenu = menu;
     });
   }
 }
