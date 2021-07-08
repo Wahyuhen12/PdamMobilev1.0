@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_pdam/common/ui/app_navigatorBar.dart';
+import 'package:mobile_pdam/views/RBM/rbm_detail.dart';
 import 'package:mobile_pdam/views/RBM/rbm_view.dart';
 import 'package:mobile_pdam/views/login/login_view.dart';
 
