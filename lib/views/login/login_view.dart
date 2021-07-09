@@ -65,9 +65,11 @@ class _LoginViewState extends State<LoginView> implements LoginViewContract {
                   ),
                 ),
               ),
-              Text(
-                'Forgot Password',
-                style: TextStyle(color: Colors.blue),
+              Center(
+                child: Text(
+                  'Forgot Password',
+                  style: TextStyle(color: Colors.blue),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0),

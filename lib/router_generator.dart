@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mobile_pdam/common/ui/app_navigatorBar.dart';
 import 'package:mobile_pdam/views/RBM/rbm_detail.dart';
 import 'package:mobile_pdam/views/RBM/rbm_view.dart';
+import 'package:mobile_pdam/views/dashboard/dashboard_view.dart';
 import 'package:mobile_pdam/views/login/login_view.dart';
+import 'package:mobile_pdam/views/login/viewnew.dart';
 
 
 class RouterGenerator {
@@ -11,7 +13,7 @@ class RouterGenerator {
       case '/loginView':
         return MaterialPageRoute(builder: (_) => LoginView());
       case '/dashboardView':
-        return MaterialPageRoute(builder: (_) => NavigatorBar());
+        return MaterialPageRoute(builder: (_) => DashBoardView());
       case '/rbmView':
         return MaterialPageRoute(builder: (_) => RBMView());
       default:

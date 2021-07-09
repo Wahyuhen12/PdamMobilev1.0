@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:mobile_pdam/common/ui/app_colors.dart';
 import 'package:mobile_pdam/views/RBM/rbm_view.dart';
-import 'package:mobile_pdam/views/profile/profile_view.dart';
 import 'package:one_context/one_context.dart';
 
 class DashBoardView extends StatefulWidget {
@@ -25,7 +23,7 @@ class _DashBoardViewState extends State<DashBoardView> {
             elevation: 0.0,
           )),
       body: ListView(
-        children: <Widget>[
+        children: [
           Stack(
             children: <Widget>[
               Container(
@@ -53,32 +51,46 @@ class _DashBoardViewState extends State<DashBoardView> {
               ),
               Positioned(
                 top: 32.0,
-                left: 40.0,
+                left: 20.0,
                 child: Wrap(
                   children: <Widget>[
-                    Text('PDAM ',
-                        style: TextStyle(
-                            fontFamily: 'Sofia',
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black54)),
-                    Text('MOBILE',
-                        style: TextStyle(
-                            fontFamily: 'Sofia',
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.primaryColor)),
+                    Row(
+                      children: [
+                        Text('PDAM ',
+                            style: TextStyle(
+                                fontFamily: 'Sofia',
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black54)),
+                        Text('MOBILE',
+                            style: TextStyle(
+                                fontFamily: 'Sofia',
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primaryColor)),
+                      ],
+                    ),
                     SizedBox(width: 160.0),
-                    new Icon(
-                      Icons.notifications,
-                      color: Colors.black45,
+                    Container(
+                      width: 35,
+                      height: 35,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 2,
+                            color: Colors.grey[400],
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                      child: new Icon(
+                        Icons.notifications,
+                        color: Colors.black45,
+                      ),
                     ),
                   ],
                 ),
               ),
               Positioned(
                   top: 160.0,
-                  left: 40.0,
+                  left: 20.0,
                   child: Column(
                     children: <Widget>[
                       Row(
@@ -102,13 +114,13 @@ class _DashBoardViewState extends State<DashBoardView> {
                   )),
               Positioned(
                   top: 200.0,
-                  left: 40.0,
+                  left: 20.0,
                   child: Column(
                     children: <Widget>[
                       Row(
                         children: <Widget>[
                           Text(
-                            'Selamat Datang di PDAM Mobile',
+                            'Selamat Datang\nDi PDAM Mobile',
                             style: TextStyle(
                               fontFamily: 'Sofia',
                               fontSize: 18.0,
@@ -122,62 +134,109 @@ class _DashBoardViewState extends State<DashBoardView> {
                   )),
             ],
           ),
-          //Get out of the stack for the options
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            _menuItem('Baca Meter', Icons.map_outlined),
-            _menuItem('Penertiban', Icons.policy_outlined),
-          ]),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            _menuItem('Pembayaran', Icons.payment_outlined),
-            _menuItem('Gis', Icons.map_outlined),
-          ]),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              _menuItem('Setting', Icons.settings_outlined),
-              _menuItem('Lain', Icons.apps),
+            children: [
+              _menu(
+                'Baca Meter',
+                Icons.speed,
+              ),
+              _menu('Penertiban', Icons.policy_outlined),
             ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                _menu('Pembayaran', Icons.payment_outlined),
+                _menu('Gis', Icons.map_outlined),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                _menu('Setting', Icons.settings_outlined),
+                _menu('Lain', Icons.apps),
+              ],
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _menuItem(String menu, icon) {
+  Widget _menu(String namaMenu, icon) {
     return InkWell(
-        splashColor: Colors.transparent,
-        onTap: () {
-          pilihmenu(menu);
-          OnePlatform.reboot(
-              setUp: () {
-                OneContext().key = GlobalKey<NavigatorState>();
-              },
-              builder: () => RBMView());
-        },
-        child: AnimatedContainer(
-            curve: Curves.easeIn,
-            duration: Duration(milliseconds: 300),
-            height: selectedMenu == menu ? 110.0 : 110.0,
-            width: selectedMenu == menu ? 160.0 : 140.0,
-            color: selectedMenu == menu
-                ? Colors.blue[50].withOpacity(0.5)
-                : Colors.transparent,
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Icon(
-                icon,
-                color: selectedMenu == menu ? Colors.blue : Colors.black38,
-                size: 40.0,
-              ),
-              SizedBox(height: 12.0),
-              Text(menu,
-                  style: TextStyle(
-                      fontFamily: 'Sofia',
-                      color:
-                          selectedMenu == menu ? Colors.blue : Colors.black38,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w600))
-            ])));
+      splashColor: Colors.transparent,
+      onTap: () {
+        pilihmenu(namaMenu);
+        selectedMenu == "Baca Meter"
+            ? OnePlatform.reboot(
+                setUp: () {
+                  OneContext().key = GlobalKey<NavigatorState>();
+                },
+                builder: () => RBMView())
+            : print("Salah Data");
+      },
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10.0),
+            child: AnimatedContainer(
+                decoration: BoxDecoration(
+                    color: selectedMenu == namaMenu
+                        ? Colors.blue[100].withOpacity(0.5)
+                        : Colors.grey[100].withOpacity(0.5),
+                    borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                curve: Curves.easeIn,
+                duration: Duration(milliseconds: 200),
+                height: selectedMenu == namaMenu ? 70.0 : 70.0,
+                width: selectedMenu == namaMenu ? 140.0 : 140.0,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(
+                              icon,
+                              color: selectedMenu == namaMenu
+                                  ? Colors.blue
+                                  : Colors.black38,
+                              size: 40.0,
+                            ),
+                            Icon(
+                              Icons.fiber_manual_record,
+                              size: 10.0,
+                              color: selectedMenu == namaMenu
+                                  ? Colors.blue
+                                  : Colors.transparent,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 12.0),
+                    ])),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 55.0, top: 10.0),
+            child: Text(namaMenu,
+                style: TextStyle(
+                    fontFamily: 'Sofia',
+                    color:
+                        selectedMenu == namaMenu ? Colors.blue : Colors.black38,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w600)),
+          )
+        ],
+      ),
+    );
   }
 
   pilihmenu(String menu) {

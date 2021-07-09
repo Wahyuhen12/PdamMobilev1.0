@@ -35,6 +35,8 @@ dependencies:
   sqflite: ^2.0.0+3
   path_provider: ^2.0.2
   one_context: ^1.1.0
+  grouped_list: ^4.0.0
+  percent_indicator: ^3.0.1
 
 dev_dependencies:
   flutter_test:
