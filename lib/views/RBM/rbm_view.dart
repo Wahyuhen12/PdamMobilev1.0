@@ -114,15 +114,14 @@ class _RBMViewState extends State<RBMView> {
                       itemBuilder: (c, element) {
                         return InkWell(
                           onTap: () {
-                            print(element['status']);
-                            // OnePlatform.reboot(
-                            //     setUp: () {
-                            //       OneContext().key =
-                            //           GlobalKey<NavigatorState>();
-                            //     },
-                            //     builder: () => RbmDetail(
-                            //           nomorMeter: element['nama'],
-                            //         ));
+                            OnePlatform.reboot(
+                                setUp: () {
+                                  OneContext().key =
+                                      GlobalKey<NavigatorState>();
+                                },
+                                builder: () => RbmDetail(
+                                      nomorMeter: element['nama'],
+                                    ));
                           },
                           child: Container(
                             decoration: BoxDecoration(
