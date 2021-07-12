@@ -193,7 +193,7 @@ class _RbmDetailState extends State<RbmDetail> {
                               setUp: () {
                                 OneContext().key = GlobalKey<NavigatorState>();
                               },
-                              builder: () => InputMeter(
+                              builder: () => InputMeterView(
                                     idpel: namapel[index].idpel.toString(),
                                   ));
                           namapel[index].status = !namapel[index].status;
@@ -246,7 +246,7 @@ class _RbmDetailState extends State<RbmDetail> {
                                     OneContext().key =
                                         GlobalKey<NavigatorState>();
                                   },
-                                  builder: () => InputMeter(
+                                  builder: () => InputMeterView(
                                         idpel: namapel[index].idpel.toString(),
                                       ));
                               sudahbaca[index].status =
@@ -299,7 +299,7 @@ class _RbmDetailState extends State<RbmDetail> {
                                             OneContext().key =
                                                 GlobalKey<NavigatorState>();
                                           },
-                                          builder: () => InputMeter(idpel: namapel[index].idpel.toString(),));
+                                          builder: () => InputMeterView(idpel: namapel[index].idpel.toString(),));
                                     belumbaca[index].status = !belumbaca[index].status;
                                     setState(() {});
                                   },
