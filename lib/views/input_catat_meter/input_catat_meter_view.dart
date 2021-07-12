@@ -3,23 +3,25 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:one_context/one_context.dart';
 import 'package:mobile_pdam/common/ui/app_button_send.dart';
 import 'package:mobile_pdam/common/ui/app_dropdown_field_camera.dart';
 import 'package:mobile_pdam/common/ui/app_header_input_meter.dart';
 import 'package:mobile_pdam/common/ui/app_text_input_meter.dart';
+import 'package:mobile_pdam/views/pick_image/pick_image_view.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
 
 import 'package:mobile_pdam/common/ui/app_icon_camera.dart';
 
-class InputMeter extends StatefulWidget {
-  InputMeter({this.idpel});
+class InputMeterView extends StatefulWidget {
+  InputMeterView({this.idpel});
   final String idpel;
   @override
-  _InputMeterState createState() => _InputMeterState();
+  _InputMeterViewState createState() => _InputMeterViewState();
 }
 
-class _InputMeterState extends State<InputMeter> {
+class _InputMeterViewState extends State<InputMeterView> {
   File _image;
   String _lbkb;
   String _lbkb1;
@@ -39,8 +41,10 @@ class _InputMeterState extends State<InputMeter> {
   Future<File> cropSquareImage(File imageFile) async {
     File croppedFile = await ImageCropper.cropImage(
       sourcePath: imageFile.path,
-      aspectRatio: CropAspectRatio(ratioX: 1, ratioY: 1),
-      aspectRatioPresets: [CropAspectRatioPreset.square],
+      aspectRatioPresets: [
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.square,
+      ],
       compressQuality: 70,
       compressFormat: ImageCompressFormat.jpg,
       androidUiSettings: androidUiSettingsLocked(),
@@ -59,15 +63,16 @@ class _InputMeterState extends State<InputMeter> {
   }
 
   IOSUiSettings iosUiSettingsLocked() => IOSUiSettings(
-        rotateClockwiseButtonHidden: false,
-        rotateButtonsHidden: false,
+        aspectRatioLockEnabled: false,
+        resetAspectRatioEnabled: false,
       );
 
   AndroidUiSettings androidUiSettingsLocked() => AndroidUiSettings(
         toolbarTitle: 'Crop Image',
-        toolbarColor: Colors.red,
+        toolbarColor: Colors.blue,
         toolbarWidgetColor: Colors.white,
-        hideBottomControls: true,
+        initAspectRatio: CropAspectRatioPreset.original,
+        lockAspectRatio: false,
       );
 
   @override
@@ -91,7 +96,8 @@ class _InputMeterState extends State<InputMeter> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                HeaderInputMeter(
+                InkWell(
+                  splashColor: Colors.transparent,
                   onTap: () {
                     getPicture();
                   },
