@@ -6,25 +6,24 @@ import 'package:mobile_pdam/common/ui/app_presentase_hold.dart';
 import 'package:mobile_pdam/common/ui/app_presentase_none.dart';
 import 'package:mobile_pdam/common/ui/app_succesDialog.dart';
 import 'package:mobile_pdam/views/RBM/rbm_detail.dart';
-import 'package:mobile_pdam/views/jaringan/jaringan_view.dart';
 import 'package:one_context/one_context.dart';
 
-class UnitView extends StatefulWidget {
-  const UnitView({Key key}) : super(key: key);
+class JaringanView extends StatefulWidget {
+  const JaringanView({Key key}) : super(key: key);
 
   @override
-  _UnitViewState createState() => _UnitViewState();
+  _JaringanViewState createState() => _JaringanViewState();
 }
 
-class _UnitViewState extends State<UnitView> {
-  List<NamaUnit> _namaunit = [
-    NamaUnit(nama: "UNIT 1"),
-    NamaUnit(nama: "UNIT 2 "),
-    NamaUnit(nama: "UNIT 3"),
-    NamaUnit(nama: "UNIT 4"),
-    NamaUnit(nama: "UNIT 5"),
-    NamaUnit(nama: "UNIT 6"),
-    NamaUnit(nama: "UNIT 7"),
+class _JaringanViewState extends State<JaringanView> {
+  List<NamaJaringan> _namaJaringan = [
+    NamaJaringan(nama: "JARINGAN 1"),
+    NamaJaringan(nama: "JARINGAN 2"),
+    NamaJaringan(nama: "JARINGAN 3"),
+    NamaJaringan(nama: "JARINGAN 4"),
+    NamaJaringan(nama: "JARINGAN 5"),
+    NamaJaringan(nama: "JARINGAN 6"),
+    NamaJaringan(nama: "JARINGAN 7"),
   ];
 
   @override
@@ -89,17 +88,10 @@ class _UnitViewState extends State<UnitView> {
                     child: ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: _namaunit.length,
+                        itemCount: _namaJaringan.length,
                         itemBuilder: (context, index) {
                           return InkWell(
-                            onTap: () {
-                              OnePlatform.reboot(
-                                  setUp: () {
-                                    OneContext().key =
-                                        GlobalKey<NavigatorState>();
-                                  },
-                                  builder: () => JaringanView());
-                            },
+                            onTap: () {},
                             child: Container(
                               decoration: BoxDecoration(
                                   border: Border.all(
@@ -115,15 +107,14 @@ class _UnitViewState extends State<UnitView> {
                                   contentPadding: EdgeInsets.symmetric(
                                       horizontal: 20.0, vertical: 10.0),
                                   leading: Icon(
-                                    Icons.apartment_outlined,
-                                    color: Colors.green,
+                                    Icons.location_on,
                                   ),
                                   title: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        _namaunit[index].nama,
+                                        _namaJaringan[index].nama,
                                         style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold),
@@ -146,11 +137,11 @@ class _UnitViewState extends State<UnitView> {
   }
 }
 
-class NamaUnit {
+class NamaJaringan {
   String nama;
   bool status;
   int idpel;
   String tagihan;
 
-  NamaUnit({this.idpel, this.nama, this.status, this.tagihan});
+  NamaJaringan({this.idpel, this.nama, this.status, this.tagihan});
 }
