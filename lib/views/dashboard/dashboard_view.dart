@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_pdam/common/ui/app_colors.dart';
 import 'package:mobile_pdam/views/RBM/rbm_view.dart';
+import 'package:mobile_pdam/views/unit/unit_view.dart';
 import 'package:one_context/one_context.dart';
 
 class DashBoardView extends StatefulWidget {
@@ -180,6 +181,12 @@ class _DashBoardViewState extends State<DashBoardView> {
                   OneContext().key = GlobalKey<NavigatorState>();
                 },
                 builder: () => RBMView())
+            :  selectedMenu == "Gis"
+            ? OnePlatform.reboot(
+                setUp: () {
+                  OneContext().key = GlobalKey<NavigatorState>();
+                },
+                builder: () => UnitView())
             : print("Salah Data");
       },
       child: Column(

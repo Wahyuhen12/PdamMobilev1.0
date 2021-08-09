@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_pdam/common/ui/app_icon_belum_baca.dart';
 import 'package:mobile_pdam/common/ui/app_icon_sudah_baca.dart';
 import 'package:flutter/services.dart';
+import 'package:mobile_pdam/views/RBM/rbm_view.dart';
 import 'package:mobile_pdam/views/input_catat_meter/input_catat_meter_view.dart';
 import 'package:one_context/one_context.dart';
 
@@ -54,7 +55,7 @@ class _RbmDetailState extends State<RbmDetail> {
   ];
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     print(namapel.length);
   }
@@ -64,116 +65,137 @@ class _RbmDetailState extends State<RbmDetail> {
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: Colors.blue));
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(200),
-          child: AppBar(
-            elevation: 10,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(50.0),
-                  bottomRight: Radius.circular(50.0)),
-            ),
-            centerTitle: false,
-            backgroundColor: Colors.blue,
-            flexibleSpace: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 80, right: 150),
-                  child: Text(
-                    widget.nomorMeter,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold),
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          body: NestedScrollView(
+            headerSliverBuilder:
+                (BuildContext context, bool innerBoxIsScrolled) {
+              return <Widget>[
+                SliverAppBar(
+                  leading: IconButton(
+                    icon: Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () {
+                      OnePlatform.reboot(
+                        setUp: () {
+                          OneContext().key = GlobalKey<NavigatorState>();
+                        },
+                        builder: () => RBMView(),
+                      );
+                    },
+                  ),
+                  elevation: 10,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(50.0),
+                        bottomRight: Radius.circular(50.0)),
+                  ),
+                  expandedHeight: 250.0,
+                  pinned: true,
+                  floating: false,
+                  bottom: PreferredSize(
+                      child: Container(
+                        padding: EdgeInsets.fromLTRB(30, 0, 0, 40),
+                        alignment: Alignment.bottomLeft,
+                        constraints: BoxConstraints.expand(height: 80),
+                        child: Text(
+                          widget.nomorMeter,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      preferredSize: Size.fromHeight(50)),
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 140, right: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Column(
+                                children: [
+                                  Text(
+                                    "26%",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                  Text(
+                                    "Terbaca",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 10),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Text(
+                                    "30%",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                  Text(
+                                    "Terbaca",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 10),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Text(
+                                    "4%",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                  Text(
+                                    "Updated",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 10),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+              ];
+            },
+            body: SingleChildScrollView(
+              physics: ScrollPhysics(),
+              child: Column(children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 30, right: 20),
+                  padding: const EdgeInsets.only(top: 38.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Column(
-                        children: [
-                          Text(
-                            "26%",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
-                          Text(
-                            "Terbaca",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 10),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            "30%",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
-                          Text(
-                            "Terbaca",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 10),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            "4%",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
-                          Text(
-                            "Updated",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 10),
-                          ),
-                        ],
-                      ),
+                      _statusItem('All'),
+                      _statusItem('Terbaca'),
+                      _statusItem('Belum Terbaca'),
                     ],
                   ),
                 ),
-              ],
+                _statusPelanggan()
+              ]),
             ),
           ),
-        ),
-        body: SingleChildScrollView(
-          physics: ScrollPhysics(),
-          child: Column(children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 38.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _statusItem('All'),
-                  _statusItem('Terbaca'),
-                  _statusItem('Belum Terbaca'),
-                ],
-              ),
-            ),
-            _statusPelanggan()
-          ]),
-        ),
-      ),
-    );
+        ));
   }
 
   Widget _statusPelanggan() {
@@ -193,7 +215,7 @@ class _RbmDetailState extends State<RbmDetail> {
                               setUp: () {
                                 OneContext().key = GlobalKey<NavigatorState>();
                               },
-                              builder: () => InputMeter(
+                              builder: () => InputMeterView(
                                     idpel: namapel[index].idpel.toString(),
                                   ));
                           namapel[index].status = !namapel[index].status;
@@ -246,7 +268,7 @@ class _RbmDetailState extends State<RbmDetail> {
                                     OneContext().key =
                                         GlobalKey<NavigatorState>();
                                   },
-                                  builder: () => InputMeter(
+                                  builder: () => InputMeterView(
                                         idpel: namapel[index].idpel.toString(),
                                       ));
                               sudahbaca[index].status =
@@ -285,55 +307,61 @@ class _RbmDetailState extends State<RbmDetail> {
                           ),
                         );
                       })
-                  : _pilihStatus == "Belum Terbaca" ? 
-                  ListView.builder(
-                                    physics: NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    itemCount: belumbaca.length,
-                                    itemBuilder: (context, index) {
-                                      return  Container(
-                                  child: InkWell(
-                                  onTap: () {
-                                    OnePlatform.reboot(
-                                          setUp: () {
-                                            OneContext().key =
-                                                GlobalKey<NavigatorState>();
-                                          },
-                                          builder: () => InputMeter(idpel: namapel[index].idpel.toString(),));
-                                    belumbaca[index].status = !belumbaca[index].status;
-                                    setState(() {});
-                                  },
-                                  child: SizedBox(
-                                    height: 95,
-                                    child: Card(
-                                      child: ListTile(
-                                        leading:AppIconBelumBaca(),
-                                        title: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              belumbaca[index].idpel.toString(),
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.black,
-                                                  fontSize: 20),
+                  : _pilihStatus == "Belum Terbaca"
+                      ? ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: belumbaca.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              child: InkWell(
+                                onTap: () {
+                                  OnePlatform.reboot(
+                                      setUp: () {
+                                        OneContext().key =
+                                            GlobalKey<NavigatorState>();
+                                      },
+                                      builder: () => InputMeterView(
+                                            idpel:
+                                                namapel[index].idpel.toString(),
+                                          ));
+                                  belumbaca[index].status =
+                                      !belumbaca[index].status;
+                                  setState(() {});
+                                },
+                                child: SizedBox(
+                                  height: 95,
+                                  child: Card(
+                                    child: ListTile(
+                                      leading: AppIconBelumBaca(),
+                                      title: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            belumbaca[index].idpel.toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.black,
+                                                fontSize: 20),
+                                          ),
+                                          Text(
+                                            belumbaca[index].nama,
+                                            style: TextStyle(
+                                              color: Colors.orange,
                                             ),
-                                            Text(belumbaca[index].nama,
-                                              style: TextStyle(
-                                                color: Colors.orange,
-                                              ),
-                                            ),
-                                            Text(belumbaca[index].tagihan),
-                                            Text(belumbaca[index].nama),
-                                          ],
-                                        ),
+                                          ),
+                                          Text(belumbaca[index].tagihan),
+                                          Text(belumbaca[index].nama),
+                                        ],
                                       ),
                                     ),
                                   ),
                                 ),
-                              );
-                                    })
-                                : Text("No Data"),
+                              ),
+                            );
+                          })
+                      : Text("No Data"),
         ]));
   }
 
