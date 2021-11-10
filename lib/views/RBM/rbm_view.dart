@@ -6,6 +6,7 @@ import 'package:mobile_pdam/common/ui/app_presentase_hold.dart';
 import 'package:mobile_pdam/common/ui/app_presentase_none.dart';
 import 'package:mobile_pdam/common/ui/app_succesDialog.dart';
 import 'package:mobile_pdam/views/RBM/rbm_detail.dart';
+import 'package:mobile_pdam/views/dashboard/dashboard_view.dart';
 import 'package:one_context/one_context.dart';
 
 class RBMView extends StatefulWidget {
@@ -52,7 +53,14 @@ class _RBMViewState extends State<RBMView> {
                     ),
               actions: [
                 IconButton(
-                  onPressed: (){}, 
+                  onPressed: (){
+                   OnePlatform.reboot(
+                    setUp: () {
+                      OneContext().key = GlobalKey<NavigatorState>();
+                    },
+                    builder: () => DashBoardView(),
+                  );
+                  }, 
                   icon: Icon(Icons.close, color: Colors.black,)
                 )
               ],

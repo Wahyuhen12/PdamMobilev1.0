@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class AppIconBelumBaca extends StatelessWidget {
-  const AppIconBelumBaca({ Key key }) : super(key: key);
+  const AppIconBelumBaca({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
       backgroundColor: Colors.red[100],
       child: Icon(
-        Icons.do_disturb_on,
+        Icons.do_disturb_alt_sharp,
         color: Colors.red[300],
       ),
     );

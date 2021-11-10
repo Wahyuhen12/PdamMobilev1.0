@@ -4,8 +4,7 @@ import 'package:mobile_pdam/views/RBM/rbm_detail.dart';
 import 'package:mobile_pdam/views/RBM/rbm_view.dart';
 import 'package:mobile_pdam/views/dashboard/dashboard_view.dart';
 import 'package:mobile_pdam/views/login/login_view.dart';
-import 'package:mobile_pdam/views/login/viewnew.dart';
-
+import 'package:mobile_pdam/views/unit/unit_view.dart';
 
 class RouterGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
