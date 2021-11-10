@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mobile_pdam/views/gis/gis_presenter.dart';
+import 'package:one_context/one_context.dart';
 
 class GisView extends StatefulWidget {
   @override
@@ -35,12 +37,20 @@ class _GisViewState extends State<GisView> {
             ),
           ),
         ),
-        body: GoogleMap(
-          onMapCreated: _onMapCreate,
-          initialCameraPosition: CameraPosition(target: _center, zoom: 20.0),
-          mapType: _currentMapType,
-          onCameraMove: _onCameraMove,
-          zoomControlsEnabled: false,
+        body: Stack(
+          children: [
+            GoogleMap(
+              onMapCreated: _onMapCreate,
+              initialCameraPosition:
+                  CameraPosition(target: _center, zoom: 20.0),
+              mapType: _currentMapType,
+              onCameraMove: _onCameraMove,
+              zoomControlsEnabled: false,
+            ),
+            FloatingActionButton(onPressed: () {
+              displayBottomSheet();
+            }),
+          ],
         ),
       ),
     );
