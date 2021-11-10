@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:one_context/one_context.dart';
 import 'package:mobile_pdam/common/ui/app_button_send.dart';
 import 'package:mobile_pdam/common/ui/app_dropdown_field_camera.dart';
-import 'package:mobile_pdam/common/ui/app_header_input_meter.dart';
 import 'package:mobile_pdam/common/ui/app_text_input_meter.dart';
-import 'package:mobile_pdam/views/pick_image/pick_image_view.dart';
+import 'package:mobile_pdam/views/input_catat_meter/input_catat_meter_presenter.dart';
+import 'package:mobile_pdam/views/pick_picture/pick_picture_view.dart';
+import 'package:one_context/one_context.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as syspaths;
 
@@ -22,12 +22,15 @@ class InputMeterView extends StatefulWidget {
 }
 
 class _InputMeterViewState extends State<InputMeterView> {
+  final InputMeterPresenter inputMeterPresenter = new InputMeterPresenter();
+
   File _image;
   String _lbkb;
   String _lbkb1;
   String _lbkb2;
   String _lbkb3;
 
+  // Mengambil gambar dari kamera
   Future<void> getPicture() async {
     final imageFile = await ImagePicker()
         .getImage(source: ImageSource.camera, imageQuality: 50);
@@ -35,10 +38,11 @@ class _InputMeterViewState extends State<InputMeterView> {
       return;
     }
 
-    cropSquareImage(File(imageFile.path));
+    _cropSquareImage(File(imageFile.path));
   }
 
-  Future<File> cropSquareImage(File imageFile) async {
+  // Crop gambar
+  Future<File> _cropSquareImage(File imageFile) async {
     File croppedFile = await ImageCropper.cropImage(
       sourcePath: imageFile.path,
       aspectRatioPresets: [
@@ -47,8 +51,8 @@ class _InputMeterViewState extends State<InputMeterView> {
       ],
       compressQuality: 70,
       compressFormat: ImageCompressFormat.jpg,
-      androidUiSettings: androidUiSettingsLocked(),
-      iosUiSettings: iosUiSettingsLocked(),
+      androidUiSettings: _androidUiSettingsLocked(),
+      iosUiSettings: _iosUiSettingsLocked(),
     );
 
     final appDir = await syspaths.getExternalStorageDirectory();
@@ -62,12 +66,12 @@ class _InputMeterViewState extends State<InputMeterView> {
     return savedImage;
   }
 
-  IOSUiSettings iosUiSettingsLocked() => IOSUiSettings(
+  IOSUiSettings _iosUiSettingsLocked() => IOSUiSettings(
         aspectRatioLockEnabled: false,
         resetAspectRatioEnabled: false,
       );
 
-  AndroidUiSettings androidUiSettingsLocked() => AndroidUiSettings(
+  AndroidUiSettings _androidUiSettingsLocked() => AndroidUiSettings(
         toolbarTitle: 'Crop Image',
         toolbarColor: Colors.blue,
         toolbarWidgetColor: Colors.white,
@@ -78,6 +82,7 @@ class _InputMeterViewState extends State<InputMeterView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: OneContext().navigator.key,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
@@ -99,7 +104,8 @@ class _InputMeterViewState extends State<InputMeterView> {
                 InkWell(
                   splashColor: Colors.transparent,
                   onTap: () {
-                    getPicture();
+                    OneContext()
+                        .push(MaterialPageRoute(builder: (_) => PickPicture()));
                   },
                   child: _image != null
                       ? Container(
@@ -181,7 +187,9 @@ class _InputMeterViewState extends State<InputMeterView> {
                               _lbkb = newValue;
                             });
                           },
-                          onPressed: getPicture,
+                          onPressed: () {
+                            getPicture();
+                          },
                         ),
                         SizedBox(
                           height: 30,
@@ -221,7 +229,9 @@ class _InputMeterViewState extends State<InputMeterView> {
                               _lbkb1 = newValue;
                             });
                           },
-                          onPressed: getPicture,
+                          onPressed: () {
+                            getPicture();
+                          },
                         ),
                         SizedBox(
                           height: 30,
@@ -261,7 +271,9 @@ class _InputMeterViewState extends State<InputMeterView> {
                               _lbkb2 = newValue;
                             });
                           },
-                          onPressed: getPicture,
+                          onPressed: () {
+                            getPicture();
+                          },
                         ),
                         SizedBox(
                           height: 30,
@@ -301,7 +313,9 @@ class _InputMeterViewState extends State<InputMeterView> {
                               _lbkb3 = newValue;
                             });
                           },
-                          onPressed: getPicture,
+                          onPressed: () {
+                            getPicture();
+                          },
                         ),
                         SizedBox(
                           height: 30,
