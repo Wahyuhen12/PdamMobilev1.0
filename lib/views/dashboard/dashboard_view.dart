@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_pdam/common/ui/app_colors.dart';
 import 'package:mobile_pdam/views/RBM/rbm_view.dart';
+import 'package:mobile_pdam/views/penertiban/penertiban_view.dart';
 import 'package:mobile_pdam/views/unit/unit_view.dart';
 import 'package:one_context/one_context.dart';
 
@@ -193,25 +194,25 @@ class _DashBoardViewState extends State<DashBoardView> {
         pilihmenu(namaMenu);
         selectedMenu == "Baca Meter"
             ? OneContext().push(MaterialPageRoute(builder: (_) => RBMView()))
-            // : selectedMenu == "Penertiban"
-            //     ? OneContext()
-            //         .push(MaterialPageRoute(builder: (_) => PenertibanView()))
-            //     : selectedMenu == "Pembayaran"
-            //         ? OneContext().push(
-            //             MaterialPageRoute(builder: (_) => PembayaranView()))
-            : selectedMenu == "Gis"
+            : selectedMenu == "Penertiban"
                 ? OneContext()
-                    .push(MaterialPageRoute(builder: (_) => UnitView()))
-                // : selectedMenu == "Pasang Baru"
-                //     ? OneContext().push(MaterialPageRoute(
-                //         builder: (_) => PasangBaruView()))
-                //     : selectedMenu == "Setting"
-                //         ? OneContext().push(MaterialPageRoute(
-                //             builder: (_) => UnderConstructiopage()))
-                //         : selectedMenu == "Lainnya"
-                //             ? OneContext().push(MaterialPageRoute(
-                //                 builder: (_) => UnderConstructiopage()))
-                : print("Salah Data");
+                    .push(MaterialPageRoute(builder: (_) => PenertibanView()))
+                //     : selectedMenu == "Pembayaran"
+                //         ? OneContext().push(
+                //             MaterialPageRoute(builder: (_) => PembayaranView()))
+                : selectedMenu == "Gis"
+                    ? OneContext()
+                        .push(MaterialPageRoute(builder: (_) => UnitView()))
+                    // : selectedMenu == "Pasang Baru"
+                    //     ? OneContext().push(MaterialPageRoute(
+                    //         builder: (_) => PasangBaruView()))
+                    //     : selectedMenu == "Setting"
+                    //         ? OneContext().push(MaterialPageRoute(
+                    //             builder: (_) => UnderConstructiopage()))
+                    //         : selectedMenu == "Lainnya"
+                    //             ? OneContext().push(MaterialPageRoute(
+                    //                 builder: (_) => UnderConstructiopage()))
+                    : print("Salah Data");
       },
       child: Column(
         children: [
