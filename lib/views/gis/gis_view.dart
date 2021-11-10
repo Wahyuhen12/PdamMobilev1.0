@@ -26,19 +26,9 @@ class _GisViewState extends State<GisView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blueAccent,
-          title: Text(
-            "",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-        body: Stack(
-          children: [
+      home: SafeArea(
+        child: Stack(
+          children: <Widget>[
             GoogleMap(
               onMapCreated: _onMapCreate,
               initialCameraPosition:
@@ -47,9 +37,13 @@ class _GisViewState extends State<GisView> {
               onCameraMove: _onCameraMove,
               zoomControlsEnabled: false,
             ),
-            FloatingActionButton(onPressed: () {
-              displayBottomSheet();
-            }),
+            Positioned(
+              bottom: 20,
+              right: 20,
+              child: FloatingActionButton(onPressed: () {
+                displayBottomSheet();
+              }),
+            ),
           ],
         ),
       ),
