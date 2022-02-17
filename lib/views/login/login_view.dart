@@ -78,8 +78,13 @@ class _LoginViewState extends State<LoginView> implements LoginViewContract {
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: new AppButton(
                       ontap: () {
-                        _presenter.buttonLogin();
-                        
+                        // _presenter.buttonLogin();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginView(),
+                          ),
+                        );
                       },
                       text: "Login",
                       color: AppColors.buttonPrimaryColor,
@@ -93,7 +98,7 @@ class _LoginViewState extends State<LoginView> implements LoginViewContract {
   }
 
   @override
-  void sukses(){
+  void sukses() {
     Navigator.pushNamed(context, "/dashboardView");
   }
 
